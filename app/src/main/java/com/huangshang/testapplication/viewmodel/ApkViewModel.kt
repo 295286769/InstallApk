@@ -3,12 +3,14 @@ package com.huangshang.testapplication.viewmodel
 import android.content.Intent
 import android.net.Uri
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.huangshang.testapplication.inteface.CallBackApk
 import com.huangshang.testapplication.inteface.CheckSelfPermissionCall
 import com.huangshang.testapplication.inteface.IFileModel
 import com.huangshang.testapplication.model.FileModel
+import com.huangshang.testapplication.model.StudentBean
 import java.io.File
 
 class ApkViewModel : IFileModel {
@@ -35,6 +37,10 @@ class ApkViewModel : IFileModel {
     }
     fun onClickBtn(v:View){
         check?.onCheck()
+
+    }
+    fun onClickSave(v: View,t:StudentBean){
+        Log.i("TAG","点击了我")
 
     }
    public fun saveApk(){

@@ -1,32 +1,19 @@
-package com.huangshang.testapplication.view
+package com.huangshang.testapplication.view.activity
 
 import android.Manifest
-import android.app.ActivityManager
-import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.content.pm.PackageManager.PERMISSION_GRANTED
-import android.net.Uri
 import android.os.Build
-import android.provider.Settings
 import android.widget.Toast
-import android.text.TextUtils
-import android.util.Log
-import android.widget.Button
 import androidx.annotation.RequiresApi
-import androidx.core.app.ActivityCompat
-import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import com.huangshang.testapplication.R
 import com.huangshang.testapplication.databinding.ActivityMainBinding
 import com.huangshang.testapplication.inteface.CallBackApk
 import com.huangshang.testapplication.inteface.CheckSelfPermissionCall
-import com.huangshang.testapplication.utils.Util
+import com.huangshang.testapplication.model.StudentBean
+import com.huangshang.testapplication.model.UserInfoBean
+import com.huangshang.testapplication.view.BaseActivity
 import com.huangshang.testapplication.viewmodel.ApkViewModel
-import com.huangshang.testapplication.viewmodel.MyAccessibilityService
-import java.io.File
 
 
 class MainActivity : BaseActivity(),CallBackApk, CheckSelfPermissionCall {
@@ -39,6 +26,13 @@ class MainActivity : BaseActivity(),CallBackApk, CheckSelfPermissionCall {
         mainDatabing=DataBindingUtil.setContentView(this,R.layout.activity_main)
         apkViewModel=ApkViewModel(this,this)
         mainDatabing?.setApkViewModel(apkViewModel)
+        var student:StudentBean= StudentBean()
+        student.mapSex?.put("aaa","皇上")
+        student.sex?.set("男")
+        student.listSex?.add(UserInfoBean("太监",12))
+        mainDatabing?.setStudentBean(student)
+        mainDatabing?.setKey("aaa")
+        mainDatabing?.setIndex(0)
     }
     override fun onCheck() {
         onCheckPermission(

@@ -3,14 +3,27 @@ package com.huangshang.testapplication.view;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.Settings;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import java.io.File;
 
 public class InstallActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Runnable runnable=new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        };
+    }
+
     /**
      * 安装Apk
      */

@@ -1,12 +1,11 @@
 package com.huangshang.testapplication.view
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.huangshang.testapplication.R
 import com.huangshang.testapplication.databinding.ActivitySecondBinding
 
-class SecondActivity: AppCompatActivity() {
+class SecondActivity: BaseActivity() {
     var databing:ActivitySecondBinding?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

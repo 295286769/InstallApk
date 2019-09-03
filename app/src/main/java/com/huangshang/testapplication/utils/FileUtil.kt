@@ -23,5 +23,8 @@ class FileUtil {
             }
             return ""
         }
+        fun createFile(path:String):File{
+            return File(path)
+        }
     }
 }

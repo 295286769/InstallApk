@@ -7,9 +7,6 @@
         <import type="androidx.databinding.ObservableMap"/>
         <import type="androidx.databinding.ObservableList"/>
         <variable
-            name="apkViewModel"
-            type="com.huangshang.testapplication.viewmodel.ApkViewModel" />
-        <variable
             name="userInfoBean"
             type="com.huangshang.testapplication.model.UserInfoBean" />
         <variable
@@ -58,7 +55,6 @@
             tools:ignore="MissingConstraints"
             android:text="@string/btn_install"
             android:id="@+id/btn_install"
-            android:onClick="@{apkViewModel::onClickBtn}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -76,8 +72,7 @@
             app:layout_constraintTop_toBottomOf="@+id/edt_in"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:text="@{studentBean.sex}"
-            android:onClick="@{(view) -> apkViewModel.onClickSave(view,studentBean)}"/>
+            android:text="@{studentBean.sex}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

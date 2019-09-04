@@ -1,5 +1,6 @@
 package com.huangshang.testapplication.view.fragment
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -57,12 +58,14 @@ class HomeFragment : BaseFragment() {
          homeBinding=DataBindingUtil.inflate(inflater, R.layout.fragment_home,container,false)
         homeBinding?.setUserViewModel(userModel)
         homeBinding?.setLifecycleOwner(this )
+
         return homeBinding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         userId=edt_text.getText().toString()
-        var runnable= Runnable {  }
+
+
     }
 }

@@ -10,16 +10,20 @@ class FileUtil {
             var path=""
             var pathName="/apkPath/"
             var pathFile:File?=null
-            if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){//有外部存储目录
-                path=Environment.getExternalStorageDirectory().absolutePath+pathName
-                pathFile= File(path)
+            try {
+                if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){//有外部存储目录
+                    path=Environment.getExternalStorageDirectory().getAbsolutePath()+pathName
+                    pathFile= File(path)
 
-            }else{
-                path= UpdateAplication.getContext().getFilesDir().getAbsolutePath()+pathName
-                pathFile= File(path)
-            }
-            if(!pathFile.exists()){
-                pathFile.mkdirs()
+                }else{
+                    path= UpdateAplication.getContext().getFilesDir().getAbsolutePath()+pathName
+                    pathFile= File(path)
+                }
+                if(!pathFile.exists()){
+                    pathFile.mkdirs()
+                }
+                return path
+            } catch (e: Exception) {
             }
             return ""
         }

@@ -1,8 +1,8 @@
-package com.huangshang.testapplication.utils
+package com.sharkgulf.checkandinstallapk.utils
 
 import android.app.ActivityManager
 import androidx.fragment.app.FragmentActivity
-import com.huangshang.testapplication.MyAppAplication
+import com.sharkgulf.checkandinstallapk.aplication.UpdateAplication
 
 class Util {
     companion object{
@@ -14,7 +14,7 @@ class Util {
             //当前应用pid
             var pid = android.os.Process.myPid();
             //任务管理类
-            var manager =  MyAppAplication.getContext().getSystemService(FragmentActivity.ACTIVITY_SERVICE) as ActivityManager;
+            var manager =  UpdateAplication.getContext().getSystemService(FragmentActivity.ACTIVITY_SERVICE) as ActivityManager;
             //遍历所有应用
             var infos = manager.getRunningAppProcesses();
             for (  item in infos) {

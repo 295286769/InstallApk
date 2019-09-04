@@ -14,10 +14,9 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.FragmentActivity
 import com.huangshang.testapplication.constant.PermisionRequstCode
-import com.huangshang.testapplication.utils.Util
 import java.io.File
 import androidx.core.content.ContextCompat.startActivity
-
+import com.sharkgulf.checkandinstallapk.utils.Util
 
 
 open class BaseActivity:FragmentActivity() {

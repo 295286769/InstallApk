@@ -8,30 +8,24 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import com.sharkgulf.checkandinstallapk.R
-import com.sharkgulf.checkandinstallapk.databinding.PopupDialogBinding
 import kotlinx.android.synthetic.main.popup_dialog.*
 import java.lang.ref.WeakReference
 import com.huangshang.checkandinstallapk.inteface.CheckSelfPermissionCall
-import com.huangshang.testapplication.inteface.CallBackApk
-import com.sharkgulf.checkandinstallapk.server.UpdateApkService
+import com.sharkgulf.checkandinstallapk.databinding.PopupDialogBinding
 import com.sharkgulf.checkandinstallapk.utils.ScreenUtil
-import com.sharkgulf.checkandinstallapk.viewmodel.ApkViewModel
+import com.sharkgulf.checkandinstallapk.utils.StartActivityUtil
 
-
-class DialogUtil : Dialog,View.OnClickListener ,CallBackApk {
-    override fun suceess(path: String) {
-    }
-
-    override fun fail() {
-    }
-
+/**
+ * 下载更新弹框
+ */
+class DialogUtil : Dialog,View.OnClickListener {
 
     private val TAG = "PopupDialog"
     private var popupDialogBinding: PopupDialogBinding? = null
     private lateinit var dialogBuider: DialogBuider
     private  lateinit var mContext: WeakReference<Context>
     private var width: Int = 0
-    private var updateApkViewModel: ApkViewModel?=null
+    //检查权限接口
     private var checkSelfPermissionCall: CheckSelfPermissionCall?=null
 
     private constructor(context: Context, dialogBuider: DialogBuider) : super(context, R.style.Dialog_Common) {
@@ -52,28 +46,21 @@ class DialogUtil : Dialog,View.OnClickListener ,CallBackApk {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if(mContext.get()!=null){
-            updateApkViewModel=ApkViewModel(this)
-            popupDialogBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext.get()), R.layout.popup_dialog, null, false)
-            popupDialogBinding?.setDialogBuider(dialogBuider)
-            popupDialogBinding?.setApkViewModel(updateApkViewModel)
-            setContentView( popupDialogBinding?.root)
-            setCancelable(dialogBuider?.getCancelable())
-            setCanceledOnTouchOutside(dialogBuider?.getCanceledOnTouchOutside())
+        popupDialogBinding = mContext.get()?.let { DataBindingUtil.inflate(LayoutInflater.from(mContext.get()), R.layout.popup_dialog, null, false) }
+            popupDialogBinding?.let { it.setDialogBuider(dialogBuider) }
+            popupDialogBinding?.let { setContentView( popupDialogBinding?.root)}
+            dialogBuider?.let { setCancelable(dialogBuider?.getCancelable())}
+            dialogBuider?.let { setCanceledOnTouchOutside(dialogBuider?.getCanceledOnTouchOutside()) }
             common_dialog_cancel_tv.setOnClickListener(this)
             common_dialog_confirm_tv.setOnClickListener(this)
-        }
-
     }
+
+    /**
+     * 启动service下载apk
+     */
     fun updateApk(){
-        if(mContext.get()!=null){
-            var intent:Intent=Intent(mContext.get(),UpdateApkService::class.java)
-            intent.putExtra("url","url")
-            mContext.get()?.startService(intent)
-        }
-//        updateApkViewModel?.updateApk()
+        StartActivityUtil.startUpdateApkService(mContext.get())
     }
-
     override fun onClick(view: View?) {
         when(view?.getId()){
             R.id.common_dialog_cancel_tv ->{
@@ -82,19 +69,14 @@ class DialogUtil : Dialog,View.OnClickListener ,CallBackApk {
             }
             R.id.common_dialog_confirm_tv ->{
                 dissDialog()
-
                 checkSelfPermissionCall?.onCheck()
-
             }
-
         }
     }
-
     fun showDialog(){
         if(!isShowing){
             show()
         }
-
     }
     fun dissDialog(){
         if(isShowing){
@@ -103,7 +85,9 @@ class DialogUtil : Dialog,View.OnClickListener ,CallBackApk {
     }
 
     companion object {
-
+        /**
+         * 弹框百题内容对象
+         */
         class DialogBuider {
             private lateinit var context: Context
             private var title = ""

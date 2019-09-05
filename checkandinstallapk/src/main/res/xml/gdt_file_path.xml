@@ -6,5 +6,5 @@
         path="GDTDOWNLOAD" />
     <external-path
         name="1.1"
-        path="testApk" />
+        path="apkPath" />
 </paths >

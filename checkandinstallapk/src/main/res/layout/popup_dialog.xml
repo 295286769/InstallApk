@@ -7,9 +7,6 @@
         <variable
             name="dialogBuider"
             type="com.sharkgulf.checkandinstallapk.widget.DialogUtil.Companion.DialogBuider" />
-        <variable
-            name="apkViewModel"
-            type="com.sharkgulf.checkandinstallapk.viewmodel.ApkViewModel" />
     </data>
     <LinearLayout
         android:orientation="vertical"

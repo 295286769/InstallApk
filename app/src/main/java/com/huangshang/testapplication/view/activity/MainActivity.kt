@@ -21,29 +21,16 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : BaseActivity(),CallBackApk, CheckSelfPermissionCall {
 
     var mainDatabing:ActivityMainBinding?=null
-    var huider:DialogUtil?=null
+    var dialoghuider:DialogUtil?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainDatabing=DataBindingUtil.setContentView(this,R.layout.activity_main)
-//        apkViewModel=ApkViewModel(this,this)
-//        mainDatabing?.setApkViewModel(apkViewModel)
-        var student:StudentBean= StudentBean()
-        student.mapSex?.put("aaa","皇上")
-        student.sex?.set("男")
-        student.listSex?.add(UserInfoBean("太监",12))
-        mainDatabing?.setStudentBean(student)
-        mainDatabing?.setKey("aaa")
-        mainDatabing?.setIndex(0)
-        huider=DialogUtil.Companion.DialogBuider(this).setTitle("更新提示").setContentText("您有新版本是否更新").setLeftBtnText("取消").setRightBtnText("确定").buider()
-        huider?.setCheckSelfPermissionCall(this)
-        btn_install.setOnClickListener(object :View.OnClickListener{
-            override fun onClick(p0: View?) {
-                huider?.showDialog()
-            }
-
-        })
-
+        dialoghuider=DialogUtil.Companion.DialogBuider(this).setTitle("更新提示").setContentText("您有新版本是否更新").setLeftBtnText("取消").setRightBtnText("确定").buider()
+        dialoghuider?.let { it.setCheckSelfPermissionCall(this) }
+        btn_install.setOnClickListener {
+            dialoghuider?.let { it.showDialog() }
+        }
     }
 
     /**
@@ -69,7 +56,7 @@ class MainActivity : BaseActivity(),CallBackApk, CheckSelfPermissionCall {
      */
     override fun permissionSuccess() {
         super.permissionSuccess()
-        huider?.updateApk()
+        dialoghuider?.let { it.updateApk() }
     }
 
     /**

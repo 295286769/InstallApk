@@ -13,9 +13,9 @@ import com.sharkgulf.checkandinstallapk.model.FileModel
 import java.io.File
 
 class ApkViewModel : IFileModel {
+
     var fileModel: FileModel?=null
     var callBack:CallBackApk?=null
-    var check: CheckSelfPermissionCall?=null
     override fun returnApkPath(path: String) {
         if (TextUtils.isEmpty(path)) {
             callBack?.fail()
@@ -23,34 +23,23 @@ class ApkViewModel : IFileModel {
         }
         callBack?.suceess(path)
     }
-    constructor(){
-        fileModel= FileModel()
+    override fun update(pregress: Int) {
+        callBack?.update(pregress)
+    }
+    override fun start() {
+        callBack?.start()
+    }
+    override fun fail() {
+        callBack?.fail()
     }
 
-    constructor(callBack:CallBackApk,checkSelfPermissionCall: CheckSelfPermissionCall){
-        this.callBack=callBack
-        this.check=checkSelfPermissionCall
-        fileModel= FileModel()
-    }
     constructor(callBack:CallBackApk){
         this.callBack=callBack
-        fileModel= FileModel()
+        fileModel= FileModel(this)
     }
 
-    fun installApk(){
-
-        fileModel?.downApk(this)
-    }
-//    fun onClickBtn(v:View){
-//
-//
-//    }
-//    //点击确定开始下载
-//    fun onClickComfir(v: View){
-//        check?.onCheck()
-//    }
-    public fun updateApk(){
-        installApk()
+    fun updateApk(){
+        fileModel?.downApk()
     }
 
 }

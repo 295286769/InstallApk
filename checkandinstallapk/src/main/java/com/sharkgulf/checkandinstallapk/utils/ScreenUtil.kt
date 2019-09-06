@@ -47,6 +47,32 @@ class ScreenUtil {
                 }
             }
         }
+        /**
+         * @param context
+         * @param dp
+         * @return
+         */
+        fun dpToPx(context: Context?, dp: Float): Int {
+            if (context == null) {
+                return -1
+            }
+            val scale = context.resources.displayMetrics.density
+            return (dp * scale + 0.5f).toInt()
+        }
+
+        /**
+         * @param context
+         * @param px
+         * @return
+         */
+        fun pxToDp(context: Context?, px: Float): Int {
+            if (context == null) {
+                return -1
+            }
+            val scale = context.resources.displayMetrics.density
+            return (px / scale + 0.5f).toInt()
+        }
     }
+
 
 }

@@ -2,7 +2,6 @@ package com.sharkgulf.checkandinstallapk.widget
 
 import android.app.Dialog
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +11,9 @@ import kotlinx.android.synthetic.main.popup_dialog.*
 import java.lang.ref.WeakReference
 import com.huangshang.checkandinstallapk.inteface.CheckSelfPermissionCall
 import com.sharkgulf.checkandinstallapk.databinding.PopupDialogBinding
+import com.sharkgulf.checkandinstallapk.inteface.DialogButtonInterface
+import com.sharkgulf.checkandinstallapk.inteface.DialogButtonLeftInterface
+import com.sharkgulf.checkandinstallapk.inteface.DialogButtonRightInterface
 import com.sharkgulf.checkandinstallapk.utils.ScreenUtil
 import com.sharkgulf.checkandinstallapk.utils.StartActivityUtil
 
@@ -23,11 +25,11 @@ class DialogUtil : Dialog,View.OnClickListener {
     private val TAG = "PopupDialog"
     private var popupDialogBinding: PopupDialogBinding? = null
     private lateinit var dialogBuider: DialogBuider
+    /**
+     * 使用弱引用防止内存泄漏
+     */
     private  lateinit var mContext: WeakReference<Context>
     private var width: Int = 0
-    //检查权限接口
-    private var checkSelfPermissionCall: CheckSelfPermissionCall?=null
-
     private constructor(context: Context, dialogBuider: DialogBuider) : super(context, R.style.Dialog_Common) {
         mContext=WeakReference<Context>(context)
         this.dialogBuider = dialogBuider
@@ -40,36 +42,26 @@ class DialogUtil : Dialog,View.OnClickListener {
         }
 
     }
-    fun setCheckSelfPermissionCall(checkSelfPermissionCall: CheckSelfPermissionCall){
-        this.checkSelfPermissionCall=checkSelfPermissionCall
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         popupDialogBinding = mContext.get()?.let { DataBindingUtil.inflate(LayoutInflater.from(mContext.get()), R.layout.popup_dialog, null, false) }
             popupDialogBinding?.let { it.setDialogBuider(dialogBuider) }
+        popupDialogBinding?.let { it.setOnClickListener(this) }
             popupDialogBinding?.let { setContentView( popupDialogBinding?.root)}
             dialogBuider?.let { setCancelable(dialogBuider?.getCancelable())}
             dialogBuider?.let { setCanceledOnTouchOutside(dialogBuider?.getCanceledOnTouchOutside()) }
-            common_dialog_cancel_tv.setOnClickListener(this)
-            common_dialog_confirm_tv.setOnClickListener(this)
-    }
-
-    /**
-     * 启动service下载apk
-     */
-    fun updateApk(){
-        StartActivityUtil.startUpdateApkService(mContext.get())
+//            common_dialog_cancel_tv.setOnClickListener(this)
+//            common_dialog_confirm_tv.setOnClickListener(this)
     }
     override fun onClick(view: View?) {
         when(view?.getId()){
             R.id.common_dialog_cancel_tv ->{
                 dissDialog()
-
+                dialogBuider?.let { it.getOnLeftButtonInterface()?.onComfireClick()}
             }
             R.id.common_dialog_confirm_tv ->{
                 dissDialog()
-                checkSelfPermissionCall?.onCheck()
+                dialogBuider?.let { it.getOnButtonRightInterface()?.onComfireClick() }
             }
         }
     }
@@ -90,12 +82,22 @@ class DialogUtil : Dialog,View.OnClickListener {
          */
         class DialogBuider {
             private lateinit var context: Context
+            //标题
             private var title = ""
+            //左边按钮文字
             private var leftBtnText = ""
+            //右边按钮文字
             private var rightBtnText = ""
+            //文本文字
             private var contentText = ""
+            //是否可以取消
             private var cancelable = true
+            //点击外部区域取消
             private var canceledOnTouchOutside = true
+            //左边按钮监听
+            public var dialogButtonLefttInterface:DialogButtonLeftInterface?= null
+            //右边按钮监听
+            private var dialogButtonRightInterface:DialogButtonRightInterface?= null
             constructor(context: Context){
                 this.context=context
             }
@@ -108,8 +110,9 @@ class DialogUtil : Dialog,View.OnClickListener {
                 return title
             }
 
-            fun setLeftBtnText(leftBtnText: String): DialogBuider {
+            fun setLeftBtnText(leftBtnText: String,dialogButtonInterface: DialogButtonLeftInterface): DialogBuider {
                 this.leftBtnText = leftBtnText
+                this.dialogButtonLefttInterface=dialogButtonInterface
                 return this
             }
 
@@ -117,8 +120,9 @@ class DialogUtil : Dialog,View.OnClickListener {
                 return leftBtnText
             }
 
-            fun setRightBtnText(rightBtnText: String): DialogBuider {
+            fun setRightBtnText(rightBtnText: String,dialogButtonInterface: DialogButtonRightInterface): DialogBuider {
                 this.rightBtnText = rightBtnText
+                this.dialogButtonRightInterface=dialogButtonInterface
                 return this
             }
 
@@ -149,6 +153,8 @@ class DialogUtil : Dialog,View.OnClickListener {
             fun getCanceledOnTouchOutside(): Boolean {
                 return canceledOnTouchOutside
             }
+            fun getOnLeftButtonInterface():DialogButtonLeftInterface?=dialogButtonLefttInterface
+            fun getOnButtonRightInterface():DialogButtonRightInterface?=dialogButtonRightInterface
 
             fun buider(): DialogUtil {
                 return DialogUtil(context, this)

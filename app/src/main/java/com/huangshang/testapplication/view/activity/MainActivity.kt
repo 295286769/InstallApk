@@ -1,8 +1,12 @@
 package com.huangshang.testapplication.view.activity
 
 import android.Manifest
+import android.content.ComponentName
+import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.Build
+import android.os.IBinder
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -10,15 +14,19 @@ import androidx.databinding.DataBindingUtil
 import com.huangshang.checkandinstallapk.inteface.CheckSelfPermissionCall
 import com.huangshang.testapplication.R
 import com.huangshang.testapplication.databinding.ActivityMainBinding
-import com.huangshang.testapplication.inteface.CallBackApk
-import com.huangshang.testapplication.model.StudentBean
-import com.huangshang.testapplication.model.UserInfoBean
-import com.huangshang.testapplication.view.BaseActivity
+import com.sharkgulf.checkandinstallapk.activity.BaseActivity
+import com.sharkgulf.checkandinstallapk.inteface.DialogButtonLeftInterface
+import com.sharkgulf.checkandinstallapk.inteface.DialogButtonRightInterface
+import com.sharkgulf.checkandinstallapk.model.PermissionSuccessEvent
+import com.sharkgulf.checkandinstallapk.utils.PermissionUtil
+import com.sharkgulf.checkandinstallapk.utils.StartActivityUtil
+import com.sharkgulf.checkandinstallapk.utils.ToasterManager
 import com.sharkgulf.checkandinstallapk.widget.DialogUtil
 import kotlinx.android.synthetic.main.activity_main.*
+import org.greenrobot.eventbus.EventBus
 
 
-class MainActivity : BaseActivity(),CallBackApk, CheckSelfPermissionCall {
+class MainActivity : BaseActivity() {
 
     var mainDatabing:ActivityMainBinding?=null
     var dialoghuider:DialogUtil?=null
@@ -26,8 +34,18 @@ class MainActivity : BaseActivity(),CallBackApk, CheckSelfPermissionCall {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainDatabing=DataBindingUtil.setContentView(this,R.layout.activity_main)
-        dialoghuider=DialogUtil.Companion.DialogBuider(this).setTitle("更新提示").setContentText("您有新版本是否更新").setLeftBtnText("取消").setRightBtnText("确定").buider()
-        dialoghuider?.let { it.setCheckSelfPermissionCall(this) }
+//        EventBus.getDefault().register(this)
+        dialoghuider=DialogUtil.Companion.DialogBuider(this).setTitle("更新提示").setContentText("您有新版本是否更新")
+            .setLeftBtnText("取消",object :DialogButtonLeftInterface(){
+
+                override fun onComfireClick() {
+                }
+            }).setRightBtnText("确定",object:DialogButtonRightInterface(){
+                override fun onComfireClick() {
+                    onCheckpPrmissions()
+                }
+
+            }).buider()
         btn_install.setOnClickListener {
             dialoghuider?.let { it.showDialog() }
         }
@@ -36,46 +54,49 @@ class MainActivity : BaseActivity(),CallBackApk, CheckSelfPermissionCall {
     /**
      * 调用权限
      */
-    override fun onCheck() {
-        onCheckPermission(
-            Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission
-                .ACCESS_FINE_LOCATION,
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_PHONE_STATE,
-            Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS,
-            Manifest.permission.VIBRATE,
-            Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.CALL_PHONE,
-            Manifest.permission.REQUEST_INSTALL_PACKAGES,
-            Manifest.permission.CAMERA)
-    }
+     fun onCheckpPrmissions() {
+        val permissions = arrayOf(
+            android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            android.Manifest
+                .permission.READ_CONTACTS,
+            android.Manifest.permission.CALL_PHONE
+        )
+        PermissionUtil.requestPermisions(this, PermissionUtil.PERMISSIONREQUESTCODE, permissions, object : PermissionUtil.RequestPermissionListener {
 
+            override fun onRequestPermissionSuccess() {//权限通过
+                permissionSuccess()
+            }
+
+            override fun onRequestPermissionFail(grantResults: IntArray) {
+                ToasterManager.showToast("请同意相关权限")
+            }
+        })
+
+    }
     /**
      * 权限全部选择成功
      */
-    override fun permissionSuccess() {
-        super.permissionSuccess()
-        dialoghuider?.let { it.updateApk() }
+     fun permissionSuccess() {
+        /**
+         * 启动service下载apk
+         */
+        StartActivityUtil.startUpdateApkService(this)
     }
+//    /**
+//         * 接收后天下载apk完成后的操作
+//         */
+//    public fun onEventMainThrend(permissionSuccessEvent: PermissionSuccessEvent){
+//        //安装apk
+//        permissionSuccessEvent.let {  StartActivityUtil.installAPK(this,permissionSuccessEvent.apkPath)}
+//    }
 
-    /**
-     * 下载成功
-     */
-    @RequiresApi(Build.VERSION_CODES.O)
-    override fun suceess(path: String) {
-        installAPK(path)
-        jumpToSetting()
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode==StartActivityUtil.ACTIVITYREQUSETCODE){//权限设置页面返回
+            onCheckpPrmissions()
+        }else if (requestCode==StartActivityUtil.PERMISSIONREQUSETCODE){//允许未知来源权限
+                    StartActivityUtil.startInstallPermissionSettingActivity(this)
+        }
     }
-
-    /**
-     * 下载失败
-     */
-    override fun fail() {
-        Toast.makeText(this, "请选择安装包！", Toast.LENGTH_SHORT).show()
-    }
-
-
-
 
 }

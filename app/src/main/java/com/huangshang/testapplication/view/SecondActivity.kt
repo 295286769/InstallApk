@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import com.huangshang.testapplication.R
 import com.huangshang.testapplication.databinding.ActivitySecondBinding
+import com.sharkgulf.checkandinstallapk.activity.BaseActivity
 
 class SecondActivity: BaseActivity() {
     var databing:ActivitySecondBinding?=null

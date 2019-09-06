@@ -10,6 +10,8 @@ import android.provider.Settings;
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 
+import com.sharkgulf.checkandinstallapk.activity.BaseActivity;
+
 import java.io.File;
 
 public class InstallActivity extends BaseActivity {

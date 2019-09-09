@@ -3,7 +3,7 @@ package com.sharkgulf.checkandinstallapk.aplication
 import android.app.Application
 import android.content.Context
 
-class UpdateAplication:Application() {
+open class UpdateAplication:Application()  {
     companion object{
         lateinit  var  mContext: Context
         fun getContext(): Context {

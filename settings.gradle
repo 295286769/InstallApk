@@ -1,2 +1,2 @@
-include ':app', ':checkandinstallapk'
+include ':app', ':checkandinstallapk', ':componentservice'
 rootProject.name='TestApplication'

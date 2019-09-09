@@ -53,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:ignore="MissingConstraints"
-            android:text="@string/btn_install"
+            android:text="@string/checkapk_btn_install"
             android:id="@+id/btn_install"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"

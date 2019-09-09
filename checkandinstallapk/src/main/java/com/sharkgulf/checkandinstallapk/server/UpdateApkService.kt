@@ -1,20 +1,11 @@
 package com.sharkgulf.checkandinstallapk.server
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.app.Service
-import android.content.Context
 import android.content.Intent
-import android.net.Uri
-import android.os.Binder
-import android.os.Build
 import android.os.IBinder
-import androidx.core.app.NotificationCompat
-import com.huangshang.checkandinstallapk.inteface.CheckSelfPermissionCall
 import com.huangshang.testapplication.inteface.CallBackApk
 import com.sharkgulf.checkandinstallapk.model.NotificationModel
 import com.sharkgulf.checkandinstallapk.model.PermissionSuccessEvent
-import com.sharkgulf.checkandinstallapk.utils.StartActivityUtil
 import com.sharkgulf.checkandinstallapk.viewmodel.ApkViewModel
 import org.greenrobot.eventbus.EventBus
 
@@ -54,7 +45,7 @@ class UpdateApkService :Service(),CallBackApk {
      */
     override fun suceess(path: String) {
         notificationModel?.let { it.notificationCancel() }
-//        EventBus.getDefault().post(PermissionSuccessEvent(path))
+        EventBus.getDefault().post(PermissionSuccessEvent(path))
 
 //        installAPK(path)
     }

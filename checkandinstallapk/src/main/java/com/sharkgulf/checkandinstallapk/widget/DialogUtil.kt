@@ -7,15 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import com.sharkgulf.checkandinstallapk.R
-import kotlinx.android.synthetic.main.popup_dialog.*
+import com.sharkgulf.checkandinstallapk.databinding.CheckapkPopupDialogBinding
 import java.lang.ref.WeakReference
-import com.huangshang.checkandinstallapk.inteface.CheckSelfPermissionCall
-import com.sharkgulf.checkandinstallapk.databinding.PopupDialogBinding
-import com.sharkgulf.checkandinstallapk.inteface.DialogButtonInterface
 import com.sharkgulf.checkandinstallapk.inteface.DialogButtonLeftInterface
 import com.sharkgulf.checkandinstallapk.inteface.DialogButtonRightInterface
 import com.sharkgulf.checkandinstallapk.utils.ScreenUtil
-import com.sharkgulf.checkandinstallapk.utils.StartActivityUtil
 
 /**
  * 下载更新弹框
@@ -23,14 +19,14 @@ import com.sharkgulf.checkandinstallapk.utils.StartActivityUtil
 class DialogUtil : Dialog,View.OnClickListener {
 
     private val TAG = "PopupDialog"
-    private var popupDialogBinding: PopupDialogBinding? = null
+    private var popupDialogBinding: CheckapkPopupDialogBinding? = null
     private lateinit var dialogBuider: DialogBuider
     /**
      * 使用弱引用防止内存泄漏
      */
     private  lateinit var mContext: WeakReference<Context>
     private var width: Int = 0
-    private constructor(context: Context, dialogBuider: DialogBuider) : super(context, R.style.Dialog_Common) {
+    private constructor(context: Context, dialogBuider: DialogBuider) : super(context, R.style.checkapk_Dialog_Common) {
         mContext=WeakReference<Context>(context)
         this.dialogBuider = dialogBuider
         if(mContext.get()!=null){
@@ -44,14 +40,12 @@ class DialogUtil : Dialog,View.OnClickListener {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        popupDialogBinding = mContext.get()?.let { DataBindingUtil.inflate(LayoutInflater.from(mContext.get()), R.layout.popup_dialog, null, false) }
+        popupDialogBinding = mContext.get()?.let { DataBindingUtil.inflate(LayoutInflater.from(mContext.get()), R.layout.checkapk_popup_dialog, null, false) }
             popupDialogBinding?.let { it.setDialogBuider(dialogBuider) }
         popupDialogBinding?.let { it.setOnClickListener(this) }
             popupDialogBinding?.let { setContentView( popupDialogBinding?.root)}
             dialogBuider?.let { setCancelable(dialogBuider?.getCancelable())}
             dialogBuider?.let { setCanceledOnTouchOutside(dialogBuider?.getCanceledOnTouchOutside()) }
-//            common_dialog_cancel_tv.setOnClickListener(this)
-//            common_dialog_confirm_tv.setOnClickListener(this)
     }
     override fun onClick(view: View?) {
         when(view?.getId()){

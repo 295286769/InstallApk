@@ -168,8 +168,8 @@ companion object{
 
                 if (req != null && req.listener != null && grantResults.size > 0) {
                     var hasPermission = true
-
                     for (permission in grantResults) {
+
                         if (permission != PackageManager.PERMISSION_GRANTED) {
                             hasPermission = false
                             break
@@ -178,6 +178,7 @@ companion object{
                     if (hasPermission) {//已经通过权限申请
                         req!!.listener!!.onRequestPermissionSuccess()
                     } else {//拒绝过弹框提示让用户选择
+
                         DialogUtil.Companion.DialogBuider(activity).setTitle("权限提示").setContentText("需要开启权限才能使用此功能")
                             .setLeftBtnText("取消",object :DialogButtonLeftInterface(){
                                 override fun onComfireClick() {

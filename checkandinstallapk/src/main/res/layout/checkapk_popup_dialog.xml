@@ -15,7 +15,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="@color/checkapk_white">
     <RelativeLayout
         android:id="@+id/common_dialog_top_rl"
         android:layout_width="match_parent"
@@ -75,7 +75,7 @@
             android:textColor="#0679FE"
             android:textSize="18dp"
             android:text="@{dialogBuider.leftBtnText}"
-            android:onClick="@{onClickListener.onClick}"
+            android:onClick="@{onClickListener::onClick}"
             />
         <View
             android:id="@+id/common_dialog_vertical_line"
@@ -92,7 +92,7 @@
             android:textColor="#0679FE"
             android:textSize="18dp"
             android:text="@{dialogBuider.rightBtnText}"
-            android:onClick="@{onClickListener.onClick}"
+            android:onClick="@{onClickListener::onClick}"
            />
     </LinearLayout>
     </LinearLayout>

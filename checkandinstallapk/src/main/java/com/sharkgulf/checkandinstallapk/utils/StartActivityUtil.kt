@@ -31,7 +31,7 @@ class StartActivityUtil {
             var intent:Intent=Intent(context, UpdateApkService::class.java)
             intent.putExtra("url","url")
             context?.let {
-                it.startActivity(intent)
+                it.startService(intent)
             }
 //            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
 //                context?.startForegroundService(intent)
@@ -109,7 +109,7 @@ class StartActivityUtil {
         fun startSettingSystem(activity: Activity){
             //引导用户到设置中去进行设置
            var  intent =  Intent();
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             if (Build.VERSION.SDK_INT >= 9) {
                 intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
                 intent.setData(Uri.fromParts("package", Util.getAppProcessName(), null));

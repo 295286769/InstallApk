@@ -53,7 +53,7 @@ public class ToasterManager {
         }
         LayoutInflater inflate = (LayoutInflater)
                 UpdateAplication.Companion.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = inflate.inflate(R.layout.toast, null);
+        View layout = inflate.inflate(R.layout.checkapk_toast, null);
         TextView title = (TextView) layout.findViewById(R.id.message_textview);
         mToast.setDuration(Toast.LENGTH_SHORT);
 //        mToast.setGravity(Gravity.CENTER, 0, 0);

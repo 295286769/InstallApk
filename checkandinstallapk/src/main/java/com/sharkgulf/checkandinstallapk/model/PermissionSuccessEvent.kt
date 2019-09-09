@@ -1,7 +1,7 @@
 package com.sharkgulf.checkandinstallapk.model
 
 class PermissionSuccessEvent(apkPath:String) {
-    var apkPath=""
+    var apkPath=apkPath
     get() = field
     set(value) {
         field=value

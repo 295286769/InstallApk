@@ -1,0 +1,20 @@
+ext {
+    appcompat_version="1.0.2"
+    kotlin_version=localKotlin_version
+    android = [
+            compileSdkVersion   : localCompileSdkVersion.toInteger(),
+            buildToolsVersion   : localBuildToolsVersion,
+            applicationId       : 'com.huangshang.testapplication',
+            minSdkVersion       : 24,
+            targetSdkVersion    : 28,
+            versionCode         : 10001,
+            versionName         : '1.0.0.1',
+            defaultPublishConfig: 'release',
+            publishNonDefault   : true
+    ]
+    dependencies = [
+            "appcompat"         : "androidx.appcompat:appcompat:$appcompat_version",
+            "kotlin-stdlib-jdk7"         : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
+
+    ]
+}

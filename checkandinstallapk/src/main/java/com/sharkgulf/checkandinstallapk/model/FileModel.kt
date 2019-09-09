@@ -37,7 +37,7 @@ class FileModel {
                     ifielModel?.let { it.update(progress) }
             }
                 DOWN_OVER ->{
-                    ifielModel?.let { it.returnApkPath(apkPath) }
+                    ifielModel?.let { it.returnApkPath(apkPath+version) }
             }
                 DOWN_ERRER ->{
                     ifielModel?.let { it.fail() }
@@ -72,7 +72,6 @@ class FileModel {
                         hadler.sendEmptyMessage(DOWN_UPDATE)
                         // 下载完成
                         if (numread < 0) {
-                            apkPath=pathFile.absolutePath
                             hadler.sendEmptyMessage(DOWN_OVER)
                             break;
                         }

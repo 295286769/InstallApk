@@ -39,7 +39,7 @@ class NotificationModel {
             builder?.apply {
                 setSmallIcon(R.drawable.nav_icon_back)
                 setLargeIcon(BitmapFactory.decodeResource(mNtContext.get()?.resources,R.drawable.nav_icon_back))
-                setContentTitle(mNtContext.get()?.resources?.getString(R.string.checkapp_name))
+                setContentTitle(mNtContext.get()?.resources?.getString(R.string.checkapk_checkapp_name))
                 setContentText("正在下载,请稍后...")
                 setNumber(0)
                 setChannelId(id)
@@ -50,7 +50,7 @@ class NotificationModel {
             builder?.apply {
                setSmallIcon(R.drawable.nav_icon_back);
                 setLargeIcon(BitmapFactory.decodeResource(mNtContext.get()?.resources,R.drawable.nav_icon_back))
-                setContentTitle(mNtContext.get()?.resources?.getString(R.string.checkapp_name));
+                setContentTitle(mNtContext.get()?.resources?.getString(R.string.checkapk_checkapp_name));
                 setContentText("正在下载,请稍后...");
                 setNumber(0);
                 setAutoCancel(true);

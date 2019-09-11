@@ -1,2 +1,2 @@
-include ':app', ':checkandinstallapk', ':componentservice'
+include ':app',':checkandinstallapk', ':componentservice', ':bluetoothlib', ':common'
 rootProject.name='TestApplication'

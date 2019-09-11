@@ -46,5 +46,7 @@ dependencies {
 
     }else {//集成模式需要依赖各个组件
         implementation project(':checkandinstallapk')
+        implementation project(':bluetoothlib')
+        implementation project(':common')
     }
 }

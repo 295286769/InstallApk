@@ -21,7 +21,7 @@ class StartActivityUtil {
         //跳转系统页面
         val ACTIVITYREQUSETCODE=100
         //跳转未知来源权限
-        val PERMISSIONREQUSETCODE=100
+        val PERMISSIONREQUSETCODE=101
         val activityResultCode=1000
         /**
          * 后台启动下载apkservice
@@ -59,7 +59,7 @@ class StartActivityUtil {
 //参数1 上下文, 参数2 Provider主机地址 和配置文件中保持一致   参数3  共享的文件
                          val contentUri = FileProvider.getUriForFile(
                              activity,
-                             Util.getAppProcessName() + ".fileprovider",
+                             activity.packageName + ".fileprovider",
                              apkFile
                          )
                          //添加这一句表示对目标应用临时授权该Uri所代表的文件
@@ -72,7 +72,6 @@ class StartActivityUtil {
                              Uri.fromFile(apkFile),
                              "application/vnd.android.package-archive"
                          )
-//                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                      }
                     startInstallApk(activity,intent)
                  } catch (e: Throwable) {
@@ -112,11 +111,11 @@ class StartActivityUtil {
             intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             if (Build.VERSION.SDK_INT >= 9) {
                 intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
-                intent.setData(Uri.fromParts("package", Util.getAppProcessName(), null));
+                intent.setData(Uri.fromParts("package", activity.packageName, null));
             } else if (Build.VERSION.SDK_INT <= 8) {
                 intent.setAction(Intent.ACTION_VIEW);
                 intent.setClassName("com.android.settings", "com.android.settings.InstalledAppDetails");
-                intent.putExtra("com.android.settings.ApplicationPkgName",  Util.getAppProcessName());
+                intent.putExtra("com.android.settings.ApplicationPkgName",  activity.packageName);
             }
             activity.startActivityForResult(intent,ACTIVITYREQUSETCODE);
 

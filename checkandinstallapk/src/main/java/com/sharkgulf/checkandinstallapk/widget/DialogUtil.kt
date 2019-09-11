@@ -74,7 +74,7 @@ class DialogUtil : Dialog,View.OnClickListener {
         /**
          * 弹框百题内容对象
          */
-        class DialogBuider {
+       public class DialogBuider {
             private lateinit var context: Context
             //标题
             private var title = ""

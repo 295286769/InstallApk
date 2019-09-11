@@ -6,6 +6,7 @@ import android.os.IBinder
 import com.huangshang.testapplication.inteface.CallBackApk
 import com.sharkgulf.checkandinstallapk.model.NotificationModel
 import com.sharkgulf.checkandinstallapk.model.PermissionSuccessEvent
+import com.sharkgulf.checkandinstallapk.utils.StartActivityUtil
 import com.sharkgulf.checkandinstallapk.viewmodel.ApkViewModel
 import org.greenrobot.eventbus.EventBus
 
@@ -69,6 +70,6 @@ class UpdateApkService :Service(),CallBackApk {
 //     * 安装apk
 //     */
 //     fun installAPK(path: String) {
-////        StartActivityUtil.installAPK(this,path)
+//        StartActivityUtil.installAPK(this,path)
 //    }
 }

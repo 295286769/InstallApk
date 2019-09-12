@@ -11,7 +11,7 @@ import com.sharkgulf.checkandinstallapk.inteface.DialogButtonRightInterface
 import com.sharkgulf.checkandinstallapk.model.PermissionSuccessEvent
 import com.sharkgulf.checkandinstallapk.utils.PermissionUtil
 import com.sharkgulf.checkandinstallapk.utils.StartActivityUtil
-import com.sharkgulf.checkandinstallapk.utils.ToasterManager
+import com.huangshang.common.manager.ToasterManager
 import com.sharkgulf.checkandinstallapk.widget.DialogUtil
 import kotlinx.android.synthetic.main.activity_main.*
 import org.greenrobot.eventbus.EventBus

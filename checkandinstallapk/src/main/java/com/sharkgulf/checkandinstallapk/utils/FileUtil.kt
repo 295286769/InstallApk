@@ -1,7 +1,7 @@
 package com.sharkgulf.checkandinstallapk.utils
 
+import android.content.Context
 import android.os.Environment
-import com.sharkgulf.checkandinstallapk.aplication.UpdateAplication
 import java.io.File
 
 class FileUtil {
@@ -16,7 +16,7 @@ class FileUtil {
                     pathFile= File(path)
 
                 }else{
-                    path= UpdateAplication.getContext().getFilesDir().getAbsolutePath()+pathName
+                    path= Environment.getDataDirectory().getAbsolutePath()+pathName
                     pathFile= File(path)
                 }
                 if(!pathFile.exists()){
@@ -26,9 +26,6 @@ class FileUtil {
             } catch (e: Exception) {
             }
             return ""
-        }
-        fun createFile(path:String):File{
-            return File(path)
         }
     }
 }

@@ -1,8 +1,8 @@
 package com.sharkgulf.checkandinstallapk.utils
 
 import android.app.ActivityManager
+import android.content.Context
 import androidx.fragment.app.FragmentActivity
-import com.sharkgulf.checkandinstallapk.aplication.UpdateAplication
 
 class Util {
     companion object{
@@ -10,11 +10,11 @@ class Util {
          * 获取当前应用程序的包名
          * @return 返回包名
          */
-        fun getAppProcessName():String{
+        fun getAppProcessName(context: Context):String{
             //当前应用pid
             var pid = android.os.Process.myPid();
             //任务管理类
-            var manager =  UpdateAplication.getContext().getSystemService(FragmentActivity.ACTIVITY_SERVICE) as ActivityManager;
+            var manager =  context.getSystemService(FragmentActivity.ACTIVITY_SERVICE) as ActivityManager;
             //遍历所有应用
             var infos = manager.getRunningAppProcesses();
             for (  item in infos) {

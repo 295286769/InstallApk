@@ -106,33 +106,35 @@ class BluetoothManager {
     /**
      * 数据传输线程
      */
-    fun readWriteData(bluetoothSocket:BluetoothSocket){
+    fun readWriteData(bluetoothSocket:BluetoothSocket) {
 
         bluetoothSocket?.let {
-          var inputStream= it.inputStream
-          var outputStream= it.outputStream
+            var inputStream = it.inputStream
+            var outputStream = it.outputStream
             val buffer = ByteArray(256)
-            var bytes=0
+            var bytes = 0
             while (true) {
-                synchronized (this) {
+                synchronized(this) {
                     try {
                         bytes = inputStream.read(buffer)
 
-                        var msg =  Message.obtain()
+                        var msg = Message.obtain()
                         msg.what = 0
-                    } catch ( e: IOException) {
+                    } catch (e: IOException) {
                     }
                 }
-        }
+            }
             outputStream.write(buffer);
-    }
-    fun register(){
-        var intentFilter=IntentFilter(BluetoothDevice.ACTION_FOUND)
-            mActivity?.registerReceiver(bluetoothReciver,intentFilter)
-    }
-    fun unRegister(){
-        mActivity?.let {
-            it?.unregisterReceiver(bluetoothReciver)
+        }
+        fun register() {
+            var intentFilter = IntentFilter(BluetoothDevice.ACTION_FOUND)
+            mActivity?.registerReceiver(bluetoothReciver, intentFilter)
+        }
+
+        fun unRegister() {
+            mActivity?.let {
+                it?.unregisterReceiver(bluetoothReciver)
+            }
         }
     }
 }

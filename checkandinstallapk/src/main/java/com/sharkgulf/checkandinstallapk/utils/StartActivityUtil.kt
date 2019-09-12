@@ -9,7 +9,6 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import androidx.core.content.FileProvider
-import com.sharkgulf.checkandinstallapk.aplication.UpdateAplication
 import com.sharkgulf.checkandinstallapk.server.UpdateApkService
 import java.io.File
 

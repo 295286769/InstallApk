@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
-    android:background="@drawable/background_standard_gray"
+    android:background="@drawable/common_background_standard_gray"
     android:gravity="center"
     android:orientation="horizontal">
 

@@ -1,4 +1,4 @@
-package com.sharkgulf.checkandinstallapk.utils;
+package com.huangshang.common.manager;
 
 import android.content.Context;
 import android.view.Gravity;
@@ -7,8 +7,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sharkgulf.checkandinstallapk.R;
-import com.sharkgulf.checkandinstallapk.aplication.UpdateAplication;
+import com.huangshang.common.R;
+import com.huangshang.common.application.CommonApplication;
+import com.huangshang.common.utils.ScreenUtil;
 
 
 public class ToasterManager {
@@ -49,15 +50,15 @@ public class ToasterManager {
 
     private static TextView intToast() {
         if (mToast == null) {
-            mToast = new Toast(UpdateAplication.Companion.getContext());
+            mToast = new Toast(CommonApplication.Companion.getContext());
         }
         LayoutInflater inflate = (LayoutInflater)
-                UpdateAplication.Companion.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = inflate.inflate(R.layout.checkapk_toast, null);
+                CommonApplication.Companion.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = inflate.inflate(R.layout.common_toast, null);
         TextView title = (TextView) layout.findViewById(R.id.message_textview);
         mToast.setDuration(Toast.LENGTH_SHORT);
 //        mToast.setGravity(Gravity.CENTER, 0, 0);
-        mToast.setGravity(Gravity.BOTTOM, 0, ScreenUtil.Companion.dpToPx( UpdateAplication.Companion.getContext(),50));
+        mToast.setGravity(Gravity.BOTTOM, 0, ScreenUtil.Companion.dpToPx( CommonApplication.Companion.getContext(),50));
         mToast.setView(layout);
         return title;
     }

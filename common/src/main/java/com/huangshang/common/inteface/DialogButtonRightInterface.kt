@@ -1,4 +1,4 @@
-package com.sharkgulf.checkandinstallapk.inteface
+import com.sharkgulf.common.inteface.CommonDialogButtonInterface
 
-abstract class DialogButtonRightInterface:DialogButtonInterface {
+abstract class DialogButtonRightInterface: CommonDialogButtonInterface {
 }

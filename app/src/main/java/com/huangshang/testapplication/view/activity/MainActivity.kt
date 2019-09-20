@@ -2,7 +2,9 @@ package com.huangshang.testapplication.view.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.databinding.DataBindingUtil
+import com.huangshang.common.activity.CommonBaseActivity
 import com.huangshang.testapplication.R
 import com.huangshang.testapplication.databinding.ActivityMainBinding
 import com.sharkgulf.checkandinstallapk.activity.BaseActivity
@@ -12,16 +14,18 @@ import com.sharkgulf.checkandinstallapk.model.PermissionSuccessEvent
 import com.sharkgulf.checkandinstallapk.utils.PermissionUtil
 import com.sharkgulf.checkandinstallapk.utils.StartActivityUtil
 import com.huangshang.common.manager.ToasterManager
+import com.huangshang.testapplication.service.BluetoothBLEService
 import com.sharkgulf.checkandinstallapk.widget.DialogUtil
 import kotlinx.android.synthetic.main.activity_main.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
 
-class MainActivity : BaseActivity() {
+class MainActivity : CommonBaseActivity() {
 
     var mainDatabing:ActivityMainBinding?=null
     var dialoghuider:DialogUtil?=null
+    var bluetoothBLEService: BluetoothBLEService?=null
     val permissions = arrayOf(
         android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
         android.Manifest
@@ -32,20 +36,33 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         mainDatabing=DataBindingUtil.setContentView(this,R.layout.activity_main)
         EventBus.getDefault().register(this)
-        dialoghuider=DialogUtil.Companion.DialogBuider(this).setTitle("更新提示").setContentText("您有新版本是否更新")
-            .setLeftBtnText("取消",object :DialogButtonLeftInterface(){
+        dialoghuider= DialogUtil.Companion.DialogBuider(this).run {
+            setTitle("更新提示")
+            setContentText("您有新版本是否更新")
+            setLeftBtnText("取消",object :DialogButtonLeftInterface(){
 
                 override fun onComfireClick() {
                 }
-            }).setRightBtnText("确定",object:DialogButtonRightInterface(){
+            })
+            setRightBtnText("确定",object:DialogButtonRightInterface(){
                 override fun onComfireClick() {
                     onCheckpPrmissions()
                 }
 
-            }).buider()
+            })
+            buider()
+        }
         btn_install.setOnClickListener {
             dialoghuider?.let { it.showDialog() }
         }
+
+        bluetoothBLEService= BluetoothBLEService(this)
+        try {
+            bluetoothBLEService?.let { it.bindService() }
+        } catch (e: Exception) {
+            Log.e("BaseActivity", e.toString())
+        }
+
     }
 //    /**
 //     * 接收后天下载apk完成后的操作
@@ -102,6 +119,11 @@ class MainActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         EventBus.getDefault().unregister(this)
+        try {
+            bluetoothBLEService?.let { it.stop() }
+        } catch (e: Exception) {
+            Log.e("BaseActivity", e.toString())
+        }
     }
 
 }

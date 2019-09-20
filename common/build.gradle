@@ -1,19 +1,26 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+def cfg = rootProject.ext.android
+def libraries =rootProject.ext.dependencies
 android {
-    compileSdkVersion 28
-    buildToolsVersion "29.0.2"
+    compileSdkVersion cfg.compileSdkVersion
+    buildToolsVersion cfg.buildToolsVersion
 
 
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion cfg.minSdkVersion
+        targetSdkVersion cfg.targetSdkVersion
+        versionCode cfg.versionCode
+        versionName cfg.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
     }
 
     buildTypes {
@@ -21,24 +28,29 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        pro{
+
+        }
     }
     resourcePrefix "common_"
 
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    annotationProcessor 'androidx.room:room-compiler:2.1.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    api rootProject.ext.dependencies["kotlin-stdlib-jdk7"]
-    api rootProject.ext.dependencies["appcompat"]
-    api 'androidx.core:core-ktx:1.0.2'
-    api 'androidx.constraintlayout:constraintlayout:1.1.3'
-    api "android.arch.lifecycle:common-java8:1.1.1"
-    api 'androidx.lifecycle:lifecycle-extensions:2.0.0'
-    api 'androidx.room:room-runtime:2.1.0'
-    api 'org.greenrobot:eventbus:3.1.1'
+    api fileTree(dir: 'libs', include: ['*.jar','*.aar'])
+    annotationProcessor libraries.room_compiler
+    testImplementation libraries.junit
+    androidTestImplementation libraries.runner
+    androidTestImplementation libraries.espresso_core
+    api libraries.kotlin_stdlib_jdk7
+    api libraries.appcompat
+    api libraries.core_ktx
+    api libraries.constraintlayout
+    api libraries.common_java8
+    api libraries.lifecycle_extensions
+    api libraries.room_runtime
+    api libraries.eventbus
+    api libraries.arouter_api
+    annotationProcessor libraries.arouter_compiler
 
 }

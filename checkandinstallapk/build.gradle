@@ -2,11 +2,11 @@
 apply plugin: 'com.jfrog.artifactory'
 
 apply plugin: 'maven-publish'
-if(isModule.toBoolean()){
-    apply plugin: 'com.android.application'
-}else {
+//if(isLibrary.toBoolean()){
     apply plugin: 'com.android.library'
-}
+//}else {
+//    apply plugin: 'com.android.application'
+//}
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
@@ -15,9 +15,9 @@ android {
     buildToolsVersion localBuildToolsVersion
 
     defaultConfig {
-        if(isModule.toBoolean()){
-            applicationId rootProject.ext.android.applicationId
-        }
+//        if(!isLibrary.toBoolean()){
+//            applicationId apkAppliocationid
+//        }
 
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
@@ -31,29 +31,31 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug{}
+        pro{}
     }
     dataBinding {
         enabled = true
     }
     resourcePrefix "checkapk_"
-    sourceSets{
-        main{
-            if(isModule.toBoolean()){
-                manifest.srcFile 'src/main/module/AndroidManifest.xml'
-            }else {
-                manifest.srcFile 'src/main/AndroidManifest.xml'
-                //集成开发模式下排除debug文件夹中的所有Java文件
-                java {
-                    exclude 'debug/**'
-                }
-            }
-        }
-    }
+//    sourceSets{
+//        main{
+//            if(isLibrary.toBoolean()){
+//                manifest.srcFile 'src/main/AndroidManifest.xml'
+//                //集成开发模式下排除debug文件夹中的所有Java文件
+//                java {
+//                    exclude 'debug/**'
+//                }
+//            }else {
+//                manifest.srcFile 'src/main/module/AndroidManifest.xml'
+//            }
+//        }
+//    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation rootProject.ext.dependencies["kotlin-stdlib-jdk7"]
+    implementation rootProject.ext.dependencies["kotlin_stdlib_jdk7"]
     implementation rootProject.ext.dependencies["appcompat"]
     implementation 'androidx.core:core-ktx:1.0.2'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'

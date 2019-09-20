@@ -33,6 +33,7 @@
             android:textSize="18dp"
             android:textColor="#555555"
             android:text="@{dialogBuider.title}"
+            android:visibility="@{StringUtil.isEmpty(dialogBuider.title)?View.GONE : View.VISIBLE}"
             />
         <ImageView
             android:id="@+id/common_dialog_close_iv"
@@ -55,6 +56,7 @@
         android:textSize="14dp"
         android:textColor="#555555"
         android:text="@{dialogBuider.contentText}"
+        android:visibility="@{StringUtil.isEmpty(dialogBuider.contentText)?View.GONE : View.VISIBLE}"
         />
     <View
         android:layout_width="match_parent"
@@ -76,6 +78,7 @@
             android:textSize="18dp"
             android:text="@{dialogBuider.leftBtnText}"
             android:onClick="@{onClickListener::onClick}"
+            android:visibility="@{StringUtil.isEmpty(dialogBuider.leftBtnText)?View.GONE : View.VISIBLE}"
             />
         <View
             android:id="@+id/common_dialog_vertical_line"
@@ -93,6 +96,7 @@
             android:textSize="18dp"
             android:text="@{dialogBuider.rightBtnText}"
             android:onClick="@{onClickListener::onClick}"
+            android:visibility="@{StringUtil.isEmpty(dialogBuider.rightBtnText)?View.GONE : View.VISIBLE}"
            />
     </LinearLayout>
     </LinearLayout>

@@ -100,7 +100,7 @@ class DialogUtil : Dialog,View.OnClickListener {
                 return this
             }
 
-            public fun getTitle(): String {
+             fun getTitle(): String {
                 return title
             }
 

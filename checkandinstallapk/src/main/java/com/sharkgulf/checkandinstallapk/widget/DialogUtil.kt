@@ -1,10 +1,14 @@
 package com.sharkgulf.checkandinstallapk.widget
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
+import androidx.annotation.MainThread
 import androidx.databinding.DataBindingUtil
 import com.sharkgulf.checkandinstallapk.R
 import com.sharkgulf.checkandinstallapk.databinding.CheckapkPopupDialogBinding
@@ -29,8 +33,8 @@ class DialogUtil : Dialog,View.OnClickListener {
     private constructor(context: Context, dialogBuider: DialogBuider) : super(context, R.style.checkapk_Dialog_Common) {
         mContext=WeakReference<Context>(context)
         this.dialogBuider = dialogBuider
-        if(mContext.get()!=null){
-            var deviceWidth = ScreenUtil.getScreenWidth(mContext.get())
+        mContext.get()?.let {
+            var deviceWidth = ScreenUtil.getScreenWidth(it)
             try {
                 width =  (deviceWidth * 0.7f).toInt()
             } catch (e: Exception) {
@@ -40,7 +44,7 @@ class DialogUtil : Dialog,View.OnClickListener {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        popupDialogBinding = mContext.get()?.let { DataBindingUtil.inflate(LayoutInflater.from(mContext.get()), R.layout.checkapk_popup_dialog, null, false) }
+        popupDialogBinding = mContext.get()?.let { DataBindingUtil.inflate(LayoutInflater.from(it), R.layout.checkapk_popup_dialog, null, false) }
             popupDialogBinding?.let { it.setDialogBuider(dialogBuider) }
         popupDialogBinding?.let { it.setOnClickListener(this) }
             popupDialogBinding?.let { setContentView( popupDialogBinding?.root)}
@@ -61,12 +65,27 @@ class DialogUtil : Dialog,View.OnClickListener {
     }
     fun showDialog(){
         if(!isShowing){
-            show()
+            mContext.get()?.let {
+                try {
+                    (it as Activity)?.runOnUiThread{
+                    show()
+                }
+                } catch (e: Exception) {
+                }
+            }
         }
     }
     fun dissDialog(){
         if(isShowing){
-            dismiss()
+            mContext.get()?.let {
+                try {
+                    (it as Activity)?.runOnUiThread{
+                    dismiss()
+                }
+                } catch (e: Exception) {
+                }
+            }
+
         }
     }
 

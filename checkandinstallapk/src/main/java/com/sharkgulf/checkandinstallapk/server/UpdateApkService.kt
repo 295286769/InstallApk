@@ -32,7 +32,7 @@ class UpdateApkService :Service(),CallBackApk {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         url=intent?.getStringExtra("url")
-        apkViewModel?.updateApk()
+        apkViewModel?.updateApk(url)
         return super.onStartCommand(intent, flags, startId)
     }
     /**

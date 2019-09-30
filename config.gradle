@@ -13,6 +13,9 @@ ext {
     junit_version="4.12"
     runner_version="1.2.0"
     espresso_core_version="3.2.0"
+    retrofit2_version="2.4.0"
+    rxjava_version="2.1.12"
+    rxandroid_version="2.0.2"
     android = [
             compileSdkVersion   : localCompileSdkVersion.toInteger(),
             buildToolsVersion   : localBuildToolsVersion,
@@ -38,7 +41,13 @@ ext {
             "room_compiler"         : "androidx.room:room-compiler:$room_compiler_version",
             "junit"         : "junit:junit:$junit_version",
             "runner"         : "androidx.test:runner:$runner_version",
-            "espresso_core"         : "androidx.test.espresso:espresso-core:$espresso_core_version"
+            "espresso_core"         : "androidx.test.espresso:espresso-core:$espresso_core_version",
+            "retrofit2"         : "com.squareup.retrofit2:retrofit:$retrofit2_version",
+            "gson"         : "com.squareup.retrofit2:converter-gson:$retrofit2_version",
+            "rxjava"         : "io.reactivex.rxjava2:rxjava:$rxjava_version",
+            "rxandroid"         : "io.reactivex.rxjava2:rxandroid:$rxandroid_version",
+            "adapter_rxjava2"         : "com.squareup.retrofit2:adapter-rxjava2:$retrofit2_version"
+
 
     ]
     //设置Lib配置

@@ -75,18 +75,18 @@ android {
             buildConfigField("String", "isDebug", '"release"')
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-                signingConfig signingConfigs.release
+//                signingConfig signingConfigs.release
         }
         debug {
             buildConfigField("String", "isDebug", '"debug"')
             minifyEnabled false
-                signingConfig signingConfigs.debug
+//                signingConfig signingConfigs.debug
         }
         pro {
             minifyEnabled false
             buildConfigField("String", "isDebug", '"pro"')
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-                signingConfig signingConfigs.pro
+//                signingConfig signingConfigs.pro
         }
     }
     dataBinding {
@@ -104,7 +104,7 @@ dependencies {
     if(isLibrary.toBoolean()){
         implementation project(':bluetoothlib')
     }
-    annotationProcessor 'androidx.room:room-compiler:2.1.0'
+    kapt 'androidx.room:room-compiler:2.1.0'
     implementation project(':checkandinstallapk')
     implementation project(':common')
     implementation project(':componentservice')

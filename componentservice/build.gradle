@@ -1,7 +1,41 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.jfrog.artifactory'
+
+apply plugin: 'maven-publish'
 def cfg = rootProject.ext.android
+
+def packageName = 'com.sharkgulf.componentservice'
+def libraryVersion = '1.0.0'
+publishing {
+    publications {
+        aar(MavenPublication) {
+            groupId packageName
+            version = libraryVersion
+            artifactId project.getName()
+            // Tell maven to prepare the generated "*.aar" file for publishing
+            artifact("$buildDir/outputs/aar/${project.getName()}-release.aar")
+        }
+    }
+}
+
+artifactory {
+    contextUrl = 'http://i.ti-link.com.cn/artifactory'  // 表示要发布到哪里去，上下文连接
+    publish {
+        repository {
+            repoKey = 'libs-release-local'  // artifactory分支，可在artifactory查看
+            username = "mahaitao"  // artifactory 默认管理员
+            password = "abcd1357"  // artifactory 默认管理员密码
+        }
+        defaults {
+            publications('aar')  // 表示要发布的文件类型
+            publishArtifacts = true
+            properties = ['qa.level': 'basic', 'dev.team': 'core']
+            publishPom = true  // 是否将自动生成的pom.xml文件发布到Artifactory
+        }
+    }
+}
 android {
     compileSdkVersion localCompileSdkVersion.toInteger()
     buildToolsVersion localBuildToolsVersion

@@ -6,6 +6,7 @@ if(isLibrary.toBoolean()){
 }
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 def cfg = rootProject.ext.android
 def libraries =rootProject.ext.dependencies
 android {
@@ -61,4 +62,6 @@ dependencies {
     androidTestImplementation libraries.espresso_core
 
     implementation project(':common')
+    kapt libraries.arouter_compiler
+    kapt libraries.room_compiler
 }

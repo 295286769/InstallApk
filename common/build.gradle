@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 def cfg = rootProject.ext.android
 def libraries =rootProject.ext.dependencies
 android {
@@ -32,13 +33,14 @@ android {
 
         }
     }
+
     resourcePrefix "common_"
 
 }
 
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar','*.aar'])
-    annotationProcessor libraries.room_compiler
+
     testImplementation libraries.junit
     androidTestImplementation libraries.runner
     androidTestImplementation libraries.espresso_core
@@ -49,8 +51,14 @@ dependencies {
     api libraries.common_java8
     api libraries.lifecycle_extensions
     api libraries.room_runtime
+    kapt libraries.room_compiler
     api libraries.eventbus
     api libraries.arouter_api
-    annotationProcessor libraries.arouter_compiler
+    api libraries.retrofit2
+    api libraries.gson
+    api libraries.rxjava
+    api libraries.rxandroid
+    api libraries.adapter_rxjava2
+    kapt libraries.arouter_compiler
 
 }

@@ -25,7 +25,6 @@ class FileModel {
 
     private var ifielModel:IFileModel?=null
     //  请求链接
-    private val url = "https://download.dgstaticresources.net/fusion/android/app-c6-release.apk"
     var hadler: Handler = object : Handler() {
         override fun handleMessage(msg: Message?) {
             super.handleMessage(msg)
@@ -50,7 +49,7 @@ class FileModel {
         apkPath = FileUtil.getStorePath()
     }
 
-    public fun downApk() {
+    public fun downApk(url:String?) {
         thread(start = true) {
             try {
                 if(!TextUtils.isEmpty(apkPath)){

@@ -96,7 +96,7 @@ class MainActivity : CommonBaseActivity() {
         /**
          * 启动service下载apk
          */
-        StartActivityUtil.startUpdateApkService(this)
+        StartActivityUtil.startUpdateApkService(this,"")
     }
     /**
          * 接收后天下载apk完成后的操作

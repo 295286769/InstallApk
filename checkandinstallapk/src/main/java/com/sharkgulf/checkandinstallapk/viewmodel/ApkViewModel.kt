@@ -38,8 +38,8 @@ class ApkViewModel : IFileModel {
         fileModel= FileModel(this)
     }
 
-    fun updateApk(){
-        fileModel?.downApk()
+    fun updateApk(url:String?){
+        fileModel?.downApk(url)
     }
 
 }

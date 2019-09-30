@@ -8,6 +8,8 @@ import android.content.ServiceConnection
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
+import android.text.TextUtils
+import android.widget.Toast
 import androidx.core.content.FileProvider
 import com.sharkgulf.checkandinstallapk.server.UpdateApkService
 import java.io.File
@@ -16,19 +18,22 @@ import java.io.File
  * 启动页面工具类
  */
 class StartActivityUtil {
-    companion object{
+    companion object {
         //跳转系统页面
-        val ACTIVITYREQUSETCODE=100
+        val ACTIVITYREQUSETCODE = 100
         //跳转未知来源权限
-        val PERMISSIONREQUSETCODE=101
-        val activityResultCode=1000
+        val PERMISSIONREQUSETCODE = 101
+        val activityResultCode = 1000
         /**
          * 后台启动下载apkservice
          */
         @SuppressLint("WrongConstant")
-        fun startUpdateApkService(context: Context?){
-            var intent:Intent=Intent(context, UpdateApkService::class.java)
-            intent.putExtra("url","url")
+        fun startUpdateApkService(context: Context?, url: String) {
+            if (TextUtils.isEmpty(url)) {
+                return
+            }
+            var intent: Intent = Intent(context, UpdateApkService::class.java)
+            intent.putExtra("url", url)
             context?.let {
                 it.startService(intent)
             }
@@ -38,48 +43,50 @@ class StartActivityUtil {
 //                context?.startService(intent);
 //            }
         }
+
         /**
          * 安装apk
          */
-         fun installAPK(activity: Activity,path: String){
-             val apkFile = File(path)
-             if (!apkFile.exists()) {
-                 return
-             }
-             val intent = Intent(Intent.ACTION_VIEW)
+        fun installAPK(activity: Activity, path: String) {
+            val apkFile = File(path)
+            if (!apkFile.exists()) {
+                return
+            }
+            val intent = Intent(Intent.ACTION_VIEW)
             //由于没有在Activity环境下启动Activity,所以设置下面的标签
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
-             //      安装完成后，启动app（源码中少了这句话）
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            //      安装完成后，启动app（源码中少了这句话）
 
-             if (null != apkFile) {
-                 try {
-                     //兼容7.0
-                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            if (null != apkFile) {
+                try {
+                    //兼容7.0
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 //参数1 上下文, 参数2 Provider主机地址 和配置文件中保持一致   参数3  共享的文件
-                         val contentUri = FileProvider.getUriForFile(
-                             activity,
-                             activity.packageName + ".fileprovider",
-                             apkFile
-                         )
-                         //添加这一句表示对目标应用临时授权该Uri所代表的文件
-                         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                         intent.setDataAndType(contentUri, "application/vnd.android.package-archive")
-                         //兼容8.0
-                         startInstallPermissionSettingActivity(activity)
-                     } else {
-                         intent.setDataAndType(
-                             Uri.fromFile(apkFile),
-                             "application/vnd.android.package-archive"
-                         )
-                     }
-                    startInstallApk(activity,intent)
-                 } catch (e: Throwable) {
-                     e.printStackTrace()
-                 }
+                        val contentUri = FileProvider.getUriForFile(
+                            activity,
+                            activity.packageName + ".fileprovider",
+                            apkFile
+                        )
+                        //添加这一句表示对目标应用临时授权该Uri所代表的文件
+                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                        intent.setDataAndType(contentUri, "application/vnd.android.package-archive")
+                        //兼容8.0
+                        startInstallPermissionSettingActivity(activity)
+                    } else {
+                        intent.setDataAndType(
+                            Uri.fromFile(apkFile),
+                            "application/vnd.android.package-archive"
+                        )
+                    }
+                    startInstallApk(activity, intent)
+                } catch (e: Throwable) {
+                    e.printStackTrace()
+                }
 
-             }
-         }
-        fun startInstallApk(context:Context,intent: Intent){
+            }
+        }
+
+        fun startInstallApk(context: Context, intent: Intent) {
             if (context.packageManager.queryIntentActivities(intent, 0).size > 0) {
                 context.startActivity(intent)
             }
@@ -96,27 +103,30 @@ class StartActivityUtil {
                     val packageURI = Uri.parse("package:${activity.packageName}")
                     val intent = Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, packageURI)
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    activity.startActivityForResult(intent,PERMISSIONREQUSETCODE)
+                    activity.startActivityForResult(intent, PERMISSIONREQUSETCODE)
                     return
                 }
             }
 
 
-
         }
-        fun startSettingSystem(activity: Activity){
+
+        fun startSettingSystem(activity: Activity) {
             //引导用户到设置中去进行设置
-           var  intent =  Intent();
+            var intent = Intent();
             intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             if (Build.VERSION.SDK_INT >= 9) {
                 intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
                 intent.setData(Uri.fromParts("package", activity.packageName, null));
             } else if (Build.VERSION.SDK_INT <= 8) {
                 intent.setAction(Intent.ACTION_VIEW);
-                intent.setClassName("com.android.settings", "com.android.settings.InstalledAppDetails");
-                intent.putExtra("com.android.settings.ApplicationPkgName",  activity.packageName);
+                intent.setClassName(
+                    "com.android.settings",
+                    "com.android.settings.InstalledAppDetails"
+                );
+                intent.putExtra("com.android.settings.ApplicationPkgName", activity.packageName);
             }
-            activity.startActivityForResult(intent,ACTIVITYREQUSETCODE);
+            activity.startActivityForResult(intent, ACTIVITYREQUSETCODE);
 
         }
     }

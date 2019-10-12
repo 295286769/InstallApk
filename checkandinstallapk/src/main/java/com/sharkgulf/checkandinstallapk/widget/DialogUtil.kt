@@ -16,6 +16,7 @@ import java.lang.ref.WeakReference
 import com.sharkgulf.checkandinstallapk.inteface.DialogButtonLeftInterface
 import com.sharkgulf.checkandinstallapk.inteface.DialogButtonRightInterface
 import com.sharkgulf.checkandinstallapk.utils.ScreenUtil
+import kotlin.Exception as Exception1
 
 /**
  * 下载更新弹框
@@ -28,10 +29,10 @@ class DialogUtil : Dialog,View.OnClickListener {
     /**
      * 使用弱引用防止内存泄漏
      */
-    private  lateinit var mContext: WeakReference<Context>
+    private  lateinit var mContext: WeakReference<Activity>
     private var width: Int = 0
-    private constructor(context: Context, dialogBuider: DialogBuider) : super(context, R.style.checkapk_Dialog_Common) {
-        mContext=WeakReference<Context>(context)
+    private constructor(context: Activity, dialogBuider: DialogBuider) : super(context, R.style.checkapk_Dialog_Common) {
+        mContext=WeakReference<Activity>(context)
         this.dialogBuider = dialogBuider
         mContext.get()?.let {
             var deviceWidth = ScreenUtil.getScreenWidth(it)
@@ -63,26 +64,23 @@ class DialogUtil : Dialog,View.OnClickListener {
             }
         }
     }
+    @Throws(Exception::class)
     fun showDialog(){
-        if(!isShowing){
-            mContext.get()?.let {
-                try {
-                    (it as Activity)?.runOnUiThread{
+        if(isShowing){
+            dismiss()
+        }
+        mContext.get()?.let {
+                it ?.runOnUiThread{
                     show()
                 }
-                } catch (e: Exception) {
-                }
-            }
         }
     }
+    @Throws(Exception::class)
     fun dissDialog(){
         if(isShowing){
             mContext.get()?.let {
-                try {
-                    (it as Activity)?.runOnUiThread{
+                    it ?.runOnUiThread{
                     dismiss()
-                }
-                } catch (e: Exception) {
                 }
             }
 
@@ -94,7 +92,7 @@ class DialogUtil : Dialog,View.OnClickListener {
          * 弹框百题内容对象
          */
        public class DialogBuider {
-            private lateinit var context: Context
+            private lateinit var context: Activity
             //标题
             private var title = ""
             //左边按钮文字
@@ -111,7 +109,7 @@ class DialogUtil : Dialog,View.OnClickListener {
             public var dialogButtonLefttInterface:DialogButtonLeftInterface?= null
             //右边按钮监听
             private var dialogButtonRightInterface:DialogButtonRightInterface?= null
-            constructor(context: Context){
+            constructor(context: Activity){
                 this.context=context
             }
             fun setTitle(title: String): DialogBuider {

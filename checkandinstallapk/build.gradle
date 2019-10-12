@@ -12,7 +12,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 def MAVEN_LOCAL_PATH ='http://i.ti-link.com.cn/artifactory'
 def ARTIFACT_ID = project.getName()
-def VERSION_NAME = '1.0.1'
+def VERSION_NAME = '1.0.2'
 def GROUP_ID = 'com.sharkgulf.checkandinstallapk'
 publishing {
     publications {

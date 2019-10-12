@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">TestApplication</string>
+    <string name="device_active">激活设备</string>
 </resources>

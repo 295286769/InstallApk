@@ -16,11 +16,13 @@ ext {
     retrofit2_version="2.4.0"
     rxjava_version="2.1.12"
     rxandroid_version="2.0.2"
+    udplib_version="1.0.0"
+    multidex_version="1.0.1"
     android = [
             compileSdkVersion   : localCompileSdkVersion.toInteger(),
             buildToolsVersion   : localBuildToolsVersion,
             applicationId       : 'com.huangshang.testapplication',
-            minSdkVersion       : 24,
+            minSdkVersion       : 26,
             targetSdkVersion    : 28,
             versionCode         : 1001,
             versionName         : '1.0.0.1',
@@ -46,7 +48,9 @@ ext {
             "gson"         : "com.squareup.retrofit2:converter-gson:$retrofit2_version",
             "rxjava"         : "io.reactivex.rxjava2:rxjava:$rxjava_version",
             "rxandroid"         : "io.reactivex.rxjava2:rxandroid:$rxandroid_version",
-            "adapter_rxjava2"         : "com.squareup.retrofit2:adapter-rxjava2:$retrofit2_version"
+            "adapter_rxjava2"         : "com.squareup.retrofit2:adapter-rxjava2:$retrofit2_version",
+            "udplib":"com.sharkgulf.udp:udplib:${udplib_version}",
+            "multidex":"com.android.support:multidex:${multidex_version}"
 
 
     ]

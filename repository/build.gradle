@@ -29,38 +29,17 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-        pro{
-
-        }
+        pro{}
     }
-
-    resourcePrefix "common_"
-
+    resourcePrefix "repository_"
 }
 
 dependencies {
-    api fileTree(dir: 'libs', include: ['*.jar','*.aar'])
-
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation libraries.junit
     androidTestImplementation libraries.runner
     androidTestImplementation libraries.espresso_core
-    api libraries.kotlin_stdlib_jdk7
-    api libraries.appcompat
-    api libraries.core_ktx
-    api libraries.constraintlayout
-    api libraries.common_java8
-    api libraries.lifecycle_extensions
-    api libraries.room_runtime
-    kapt libraries.room_compiler
-    api libraries.eventbus
-    api libraries.arouter_api
-    api libraries.retrofit2
-    api libraries.gson
-    api libraries.rxjava
-    api libraries.rxandroid
-    api libraries.adapter_rxjava2
-    api libraries.udplib
-    api libraries.multidex
+    implementation project(':common')
     kapt libraries.arouter_compiler
-
+    kapt libraries.room_compiler
 }

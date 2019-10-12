@@ -17,8 +17,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.huangshang.bluetoothlib.activity.BleScanActivity"/>
-        <receiver android:name="com.huangshang.bluetoothlib.reciver.BluetoothReciver"/>
+
         <service
             android:name=".viewmodel.MyAccessibilityService"
             android:label="@string/checkapk_maniset_install"

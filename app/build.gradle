@@ -58,6 +58,7 @@ android {
     compileSdkVersion localCompileSdkVersion.toInteger()
     buildToolsVersion localBuildToolsVersion
     defaultConfig {
+        multiDexEnabled true
         applicationId cfg.applicationId
         minSdkVersion cfg.minSdkVersion
         targetSdkVersion cfg.targetSdkVersion
@@ -98,9 +99,16 @@ android {
         // but continue the build even when errors are found:
         abortOnError false
     }
+    repositories {
+        flatDir {
+            dirs 'libs'   // aar目录
+        }
+    }
+
 }
 
 dependencies {
+    api fileTree(dir: 'libs', include: ['*.jar','*.aar'])
     if(isLibrary.toBoolean()){
         implementation project(':bluetoothlib')
     }

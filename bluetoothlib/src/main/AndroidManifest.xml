@@ -17,5 +17,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <application>
         <activity android:name="debug.BlueToothLaucherActivity"/>
+        <activity android:name="com.huangshang.bluetoothlib.activity.BleScanActivity"/>
+        <receiver android:name="com.huangshang.bluetoothlib.reciver.BluetoothReciver"/>
     </application>
 </manifest>

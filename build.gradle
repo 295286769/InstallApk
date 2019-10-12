@@ -21,6 +21,19 @@ allprojects {
         maven {
             url 'https://maven.google.com'
         }
+        maven {
+            url "http://i.ti-link.com.cn/artifactory/libs-release-local"
+            authentication {
+                basic(BasicAuthentication)
+            }
+
+            credentials {
+                username = 'maven_user'
+                password = 'maven_111'
+            }
+        }
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
         google()
         jcenter()
 

@@ -2,6 +2,7 @@ package com.huangshang.common.application
 
 import android.app.Application
 import android.content.Context
+import androidx.multidex.MultiDex
 
 open class CommonApplication:Application() {
     companion object{
@@ -9,6 +10,10 @@ open class CommonApplication:Application() {
         fun getContext(): Context {
             return mContext
         }
+    }
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(base)
+        MultiDex.install(this)
     }
     override fun onCreate() {
         super.onCreate()

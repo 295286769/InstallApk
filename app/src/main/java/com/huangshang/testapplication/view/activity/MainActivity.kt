@@ -3,6 +3,7 @@ package com.huangshang.testapplication.view.activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.databinding.DataBindingUtil
 import com.huangshang.common.activity.CommonBaseActivity
 import com.huangshang.testapplication.R
@@ -16,6 +17,10 @@ import com.sharkgulf.checkandinstallapk.utils.StartActivityUtil
 import com.huangshang.common.manager.ToasterManager
 import com.huangshang.testapplication.service.BluetoothBLEService
 import com.sharkgulf.checkandinstallapk.widget.DialogUtil
+import com.sharkgulf.udp.Controller.Controller
+import com.sharkgulf.udp.models.MotorInfoModel
+import com.sharkgulf.udp.services.server.UDPServer
+import com.sharkgulf.utils.BSLog
 import kotlinx.android.synthetic.main.activity_main.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -55,13 +60,17 @@ class MainActivity : CommonBaseActivity() {
         btn_install.setOnClickListener {
             dialoghuider?.let { it.showDialog() }
         }
+        btn_active.setOnClickListener({
+            BSLog.init(BSLog.ALL, "com.huangshang.testapplication", "")
+            var motorInfo= MotorInfoModel()
+            motorInfo.setImei("962587030282035")
+            motorInfo.setImsi("560041226505756")
+            motorInfo.setSn("G500GDA18030100055")
+            motorInfo.setVersion("BIKE.NO1.V01-20190806-0000")
+            Controller().deviceActive(motorInfo)
+        })
 
-        bluetoothBLEService= BluetoothBLEService(this)
-        try {
-            bluetoothBLEService?.let { it.bindService() }
-        } catch (e: Exception) {
-            Log.e("BaseActivity", e.toString())
-        }
+
 
     }
 //    /**
